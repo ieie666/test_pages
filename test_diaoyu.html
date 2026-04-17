@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>点击一下试试</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      overflow: hidden;
+    }
+
+    .card {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.5s ease;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: none;
+      background: #007aff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .bomb {
+      font-size: 80px;
+      animation: shake 0.5s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(5deg); }
+      50% { transform: rotate(0deg); }
+      75% { transform: rotate(-5deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    .hidden { display: none; }
+
+    .message {
+      font-size: 24px;
+      margin-top: 20px;
+      color: #ff3b30;
+      font-weight: 600;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <h1>点我一下 👀</h1>
+    <p>看看会发生什么</p>
+    <button onclick="triggerBomb()">点这里</button>
+
+    <div id="result" class="hidden">
+      <div class="bomb">💣</div>
+      <div class="message">你中招了！！！😂</div>
+    </div>
+  </div>
+
+  <script>
+    function triggerBomb() {
+      const result = document.getElementById('result');
+      result.classList.remove('hidden');
+
+      // 背景闪红
+      document.body.style.background = '#ff3b30';
+
+      // 震动效果
+      let count = 0;
+      const shakeInterval = setInterval(() => {
+        document.body.style.transform = `translate(${Math.random()*10-5}px, ${Math.random()*10-5}px)`;
+        count++;
+        if (count > 15) {
+          clearInterval(shakeInterval);
+          document.body.style.transform = 'none';
+        }
+      }, 50);
+
+      // 3秒后恢复
+      setTimeout(() => {
+        document.body.style.background = 'linear-gradient(135deg, #f5f7fa, #c3cfe2)';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

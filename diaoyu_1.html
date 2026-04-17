@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>系统检测中...</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(270deg, #0ff, #7b00ff, #ff0080, #00ffa6);
+      background-size: 800% 800%;
+      animation: gradientFlow 10s ease infinite;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card {
+      text-align: center;
+      padding: 40px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 40px rgba(255,255,255,0.1);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      border: none;
+      background: #007aff;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: transparent; /* 保持背景渐变一直可见 */
+      font-size: 42px;
+      z-index: 999;
+    }
+
+    .hidden { display: none; }
+
+    .bomb {
+      font-size: 160px;
+      animation: shake 0.2s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0,0); }
+      25% { transform: translate(5px,-5px); }
+      50% { transform: translate(-5px,5px); }
+      75% { transform: translate(5px,5px); }
+      100% { transform: translate(0,0); }
+    }
+
+    .flash {
+      animation: flash 0.08s infinite, gradientFlow 3s ease infinite;
+    }
+
+    @keyframes flash {
+      0% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(180deg) brightness(1.5); }
+      100% { filter: hue-rotate(360deg) brightness(1); }
+    }
+      25% { background: #2b0000; }
+      50% { background: #ff0000; }
+      75% { background: #2b0000; }
+      100% { background: #000000; }
+    }
+      50% { background: red; }
+      100% { background: black; }
+    }
+
+    .big-text {
+      font-size: 64px;
+      color: #ffffff;
+      font-weight: bold;
+      margin-top: 20px;
+      text-shadow: 0 0 20px rgba(255,255,255,0.8);
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="card" id="start">
+  <h1>点击进行系统检测</h1>
+  <button onclick="startPrank()">立即检测</button>
+</div>
+
+<div id="stage1" class="fullscreen hidden">
+  <div>⚠️ 正在扫描设备...</div>
+</div>
+
+<div id="stage2" class="fullscreen hidden">
+  <div class="bomb">💣</div>
+  <div class="big-text">危险！！！</div>
+</div>
+
+<div id="stage3" class="fullscreen hidden">
+  <div class="big-text">你中招了！！！😂😂😂</div>
+</div>
+
+<script>
+function startPrank() {
+  document.getElementById('start').style.display = 'none';
+
+  const s1 = document.getElementById('stage1');
+  const s2 = document.getElementById('stage2');
+  const s3 = document.getElementById('stage3');
+
+  s1.classList.remove('hidden');
+
+  // 假扫描
+  setTimeout(() => {
+    s1.innerHTML = '⚠️ 检测到异常行为...';
+  }, 1500);
+
+  setTimeout(() => {
+    s1.innerHTML = '🚨 正在上传数据...';
+  }, 3000);
+
+  setTimeout(() => {
+    s1.classList.add('hidden');
+    s2.classList.remove('hidden');
+
+    // 全屏闪烁+震动
+    document.body.classList.add('flash');
+
+    let count = 0;
+    const shake = setInterval(() => {
+      document.body.style.transform = `translate(${Math.random()*30-15}px, ${Math.random()*30-15}px)`;
+      count++;
+      if (count > 30) {
+        clearInterval(shake);
+        document.body.style.transform = 'none';
+      }
+    }, 30);
+
+  }, 4500);
+
+  // 最终揭晓
+  setTimeout(() => {
+    document.body.classList.remove('flash');
+    s2.classList.add('hidden');
+    s3.classList.remove('hidden');
+  }, 7000);
+}
+</script>
+
+</body>
+</html>
